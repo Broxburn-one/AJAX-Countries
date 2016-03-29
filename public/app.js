@@ -9,7 +9,7 @@ window.onload = function(){
   var population;
   var capital;
   var countryList = [];
-
+  var borders = [];
 
 
 // check if anything persistent
@@ -21,10 +21,7 @@ window.onload = function(){
     population = storedCountry[1].population;
     capital = storedCountry[2].capital;
 
-  // console.log('at the very start- stored: ', capital);
-      document.getElementById('name').innerHTML = selCountry;
-      document.getElementById('capital').innerHTML = capital;
-      document.getElementById('population').innerHTML = population;
+    outputList(selCountry, capital,population);
  } 
 
   request.open("GET", url);   // next tell it what to do when it completes = async nature of it
@@ -56,12 +53,14 @@ window.onload = function(){
         if (countries[i].name === selCountry) {
           population =  countries[i].population;
           capital = countries[i].capital;
+          borders = countries[i].borders; // NB sometimes no borders.
         }
       }  
      //   console.log(capital, population);
-        document.getElementById('name').innerHTML = selCountry;
-        document.getElementById('capital').innerHTML = capital;
-        document.getElementById('population').innerHTML = population;
+      outputList(selCountry, capital,population);
+   
+        console.log('capital: ', capital);
+        console.log('borders: ', borders);
 // persist
       storedCountry = [
         {'name': selCountry},
@@ -82,3 +81,9 @@ window.onload = function(){
   };
   request.send();   
 };
+
+var outputList = function(selCountry, capital, population) {
+        document.getElementById('name').innerHTML = selCountry;
+        document.getElementById('capital').innerHTML = capital;
+        document.getElementById('population').innerHTML = population;
+}
